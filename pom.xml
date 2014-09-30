@@ -1,0 +1,145 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.yuzu.ios</groupId>
+  <artifactId>openssl</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>openssl</name>
+  <description>Yuzu's OpenSSL-for-iPhone</description>
+
+  <properties>
+    <scm.base>https://github.com/bnedu</scm.base>
+    <scm.repo>${scm.base}/OpenSSL-for-iPhone.git</scm.repo>
+  </properties>
+
+  <scm>
+    <connection>scm:git:${scm.repo}</connection>
+    <developerConnection>scm:git:${scm.repo}</developerConnection>
+    <url>${scm.base}/${project.artifactId}/commits</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <repositories>
+    <repository>
+      <id>nexus-apps</id>
+      <name>nexus-apps</name>
+      <url>https://nexus.bnchalk.com/content/groups/public</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus-apps-releases</id>
+      <name>nexus-apps-releases</name>
+      <url>https://nexus.bnchalk.com/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-apps-snapshots</id>
+      <name>nexus-apps-snapshots</name>
+      <url>https://nexus.bnchalk.com/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${user.home}/Library/Developer/Xcode/DerivedData</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>1.3.1</version>
+        <executions>
+
+          <execution>
+            <id>build_openssl</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>build-libssl.sh</executable>
+              <workingDirectory>${basedir}</workingDirectory>
+              <arguments>
+                <argument>verbose</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <!-- During release:perform, enable the "release" profile -->
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy assembly:single</goals>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+
+          <plugin>
+            <artifactId>maven-verifier-plugin</artifactId>
+            <version>1.0</version>
+            <configuration>
+              <failOnError>true</failOnError>
+              <verificationFile>${basedir}/maven/verify-assembly.xml</verificationFile>
+            </configuration>
+            <executions>
+              <execution>
+                <id>verify-assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+              <descriptors>
+                <descriptor>${basedir}/maven/assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+            <executions>
+              <execution>
+                <id>assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+       </build>
+    </profile>
+  </profiles>
+
+</project>

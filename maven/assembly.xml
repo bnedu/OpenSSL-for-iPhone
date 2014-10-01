@@ -4,7 +4,7 @@
     <formats>
         <format>zip</format>
     </formats>
-    <baseDirectory>opensslLibs</baseDirectory>
+    <baseDirectory>openssl-libs</baseDirectory>
 
     <!-- Adds dependencies to zip package under lib directory -->
     <dependencySets>
@@ -23,11 +23,8 @@
         <!-- adds package to the root directory of zip package -->
 
         <fileSet>
-            <directory>${project.basedir}/include/openssl</directory>
+            <directory>${project.basedir}/include/</directory>
             <outputDirectory>include</outputDirectory>
-            <includes>
-                <include>*.h</include>
-            </includes>
         </fileSet>
 
 

@@ -53,7 +53,7 @@
         <configuration>
           <filesets>
             <fileset>
-              <directory>${user.home}/Library/Developer/Xcode/DerivedData</directory>
+              <directory>${basedir}/bin</directory>
             </fileset>
           </filesets>
         </configuration>

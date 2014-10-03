@@ -30,7 +30,7 @@
 
         <fileSet>
             <directory>${project.basedir}/lib</directory>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>.</outputDirectory>
             <includes>
                 <include>*.a</include>
             </includes>

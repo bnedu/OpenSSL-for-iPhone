@@ -167,4 +167,28 @@ cp -R ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/openssl $
 echo "Building done."
 echo "Cleaning up..."
 rm -rf ${CURRENTPATH}/src/openssl-${VERSION}
+
+echo "Packaging as a framework..."
+PRODUCT_NAME="openssl"
+
+export FRAMEWORK_DIR="${PRODUCT_NAME}.framework"
+ 
+set -x
+cd "${CURRENTPATH}"
+[ ! -f "$FRAMEWORK_DIR" ] || rm -fr "$FRAMEWORK_DIR"
+
+# Create the path to the real Headers dir
+mkdir -p "${FRAMEWORK_DIR}/Versions/A/Headers"
+ 
+# Create the required symlinks
+/bin/ln -sfh A "${FRAMEWORK_DIR}/Versions/Current"
+/bin/ln -sfh Versions/Current/Headers "${FRAMEWORK_DIR}/Headers"
+/bin/ln -sfh "Versions/Current/${PRODUCT_NAME}" "${FRAMEWORK_DIR}/${PRODUCT_NAME}"
+ 
+# Copy the public headers into the framework
+/bin/cp -a "include/" "${FRAMEWORK_DIR}/Versions/A/Headers"
+
+# Combine the static libs into the framework binary
+libtool -static -o "${FRAMEWORK_DIR}/Versions/A/${PRODUCT_NAME}" lib/*.a
+set +x
 echo "Done."

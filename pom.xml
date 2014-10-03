@@ -125,6 +125,7 @@
             <configuration>
               <descriptors>
                 <descriptor>${basedir}/maven/assembly.xml</descriptor>
+                <descriptor>${basedir}/maven/assembly-framework.xml</descriptor>
               </descriptors>
             </configuration>
             <executions>

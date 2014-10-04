@@ -3,7 +3,7 @@
 
   <groupId>com.yuzu.ios</groupId>
   <artifactId>openssl</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <packaging>pom</packaging>
 
   <name>openssl</name>
@@ -18,7 +18,7 @@
     <connection>scm:git:${scm.repo}</connection>
     <developerConnection>scm:git:${scm.repo}</developerConnection>
     <url>${scm.base}/${project.artifactId}/commits</url>
-    <tag>HEAD</tag>
+    <tag>openssl-1.0.3</tag>
   </scm>
 
   <repositories>

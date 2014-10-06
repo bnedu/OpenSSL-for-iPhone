@@ -4,6 +4,7 @@
     <formats>
         <format>zip</format>
     </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
 
     <fileSets>
         <!-- adds package to the root directory of zip package -->

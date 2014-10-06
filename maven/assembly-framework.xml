@@ -4,7 +4,6 @@
     <formats>
         <format>zip</format>
     </formats>
-    <baseDirectory>openssl-framework</baseDirectory>
 
     <fileSets>
         <!-- adds package to the root directory of zip package -->
